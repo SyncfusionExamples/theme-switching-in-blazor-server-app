@@ -43,32 +43,31 @@
         new ThemeDetails(){ ID = "highcontrast", Text = "High Contrast" }
     };
 
-public void OnThemeChange(ChangeEventArgs<string, ThemeDetails> args)
-{
-    var theme = GetThemeName();
-    if (theme != args.ItemData.ID)
+    public void OnThemeChange(ChangeEventArgs<string, ThemeDetails> args)
     {
-        UrlHelper.NavigateTo(GetUri(args.ItemData.ID ), true);
+        var theme = GetThemeName();
+        if (theme != args.ItemData.ID)
+        {
+            UrlHelper.NavigateTo(GetUri(args.ItemData.ID ), true);
+        }
     }
-}
 
-private string GetThemeName()
-{
-    var uri = UrlHelper.ToAbsoluteUri(UrlHelper.Uri);
-    QueryHelpers.ParseQuery(uri.Query).TryGetValue("theme", out var theme);
-    theme = theme.Count > 0 ? theme.First() : "bootstrap";
-    return theme;
-}
+    private string GetThemeName()
+    {
+        var uri = UrlHelper.ToAbsoluteUri(UrlHelper.Uri);
+        QueryHelpers.ParseQuery(uri.Query).TryGetValue("theme", out var theme);
+        return theme.Count > 0 ? theme.First() : "bootstrap4";
+    }
 
-private string GetUri(string themeName)
-{
-    var uri = UrlHelper.ToAbsoluteUri(UrlHelper.Uri);
-    return uri.AbsolutePath + "?theme=" + themeName;
-}
+    private string GetUri(string themeName)
+    {
+        var uri = UrlHelper.ToAbsoluteUri(UrlHelper.Uri);
+        return uri.AbsolutePath + "?theme=" + themeName;
+    }
 
-protected override void OnInitialized()
-{
-    var theme = GetThemeName();
-    themeName = theme.Contains("bootstrap4") ? "bootstrap4" : theme;
-}
+    protected override void OnInitialized()
+    {
+        var theme = GetThemeName();
+        themeName = theme.Contains("bootstrap4") ? "bootstrap4" : theme;
+    }
 }

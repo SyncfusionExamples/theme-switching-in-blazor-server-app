@@ -6,7 +6,7 @@
     Layout = null;
 
     QueryHelpers.ParseQuery(Request.QueryString.Value).TryGetValue("theme", out var themeName);
-    themeName = themeName.Count > 0 ? themeName.First() : "bootstrap";
+    themeName = themeName.Count > 0 ? themeName.First() : "bootstrap4";
 }
 
 <!DOCTYPE html>
