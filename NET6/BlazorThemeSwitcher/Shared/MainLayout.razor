@@ -1,32 +1,32 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager UrlHelper;
-@inject IJSRuntime JSRuntime;
 @using Syncfusion.Blazor.DropDowns;
-@using Microsoft.AspNetCore.WebUtilities;
+@using Microsoft.AspNetCore.WebUtilities
 
-<PageTitle>BlazorThemeSwitcher</PageTitle>
 <div class="page">
-    <main>
+    <div class="main">
         <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-        <article class="content px-4">
             <div class="theme-switcher">
                 @*Theme switcher*@
-                <br />
-                <SfDropDownList TItem="ThemeDetails" TValue="string" @bind-Value="themeName" DataSource="@Themes" Width="25%">
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <SfDropDownList TItem="ThemeDetails" TValue="string" @bind-Value="themeName" DataSource="@Themes">
                     <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
                     <DropDownListEvents TItem="ThemeDetails" TValue="string" ValueChange="OnThemeChange"></DropDownListEvents>
                 </SfDropDownList>
             </div>
-            <br />
+            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+        </div>
+
+        <div class="content px-4">
             @Body
-        </article>
-    </main>
+        </div>
+    </div>
 </div>
 
 @code {
-
     private string themeName;
 
     public class ThemeDetails
@@ -36,7 +36,6 @@
     }
 
     @*Theme switcher datasource*@
-
     private List<ThemeDetails> Themes = new List<ThemeDetails>() {
         new ThemeDetails(){ ID = "material", Text = "Material" },
         new ThemeDetails(){ ID = "bootstrap", Text = "Bootstrap" },
@@ -69,8 +68,7 @@
     {
         var uri = UrlHelper.ToAbsoluteUri(UrlHelper.Uri);
         QueryHelpers.ParseQuery(uri.Query).TryGetValue("theme", out var theme);
-        theme = theme.Count > 0 ? theme.First() : "bootstrap4";
-        return theme;
+        return theme.Count > 0 ? theme.First() : "bootstrap4";
     }
 
     /// <summary>
