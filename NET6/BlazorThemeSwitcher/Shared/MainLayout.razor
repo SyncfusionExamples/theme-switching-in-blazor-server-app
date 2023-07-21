@@ -1,36 +1,32 @@
-﻿ @inherits LayoutComponentBase
- @inject NavigationManager UrlHelper;
- @inject IJSRuntime JSRuntime;
- @using Syncfusion.Blazor.DropDowns;
- @using Syncfusion.Blazor.Buttons;
- @using Microsoft.AspNetCore.WebUtilities;
-
-<PageTitle>BlazorThemeSwitcher</PageTitle>
+﻿@inherits LayoutComponentBase
+@inject NavigationManager UrlHelper;
+@using Syncfusion.Blazor.DropDowns;
+@using Microsoft.AspNetCore.WebUtilities
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
+    <div class="main">
         <div class="top-row px-4">
             <div class="theme-switcher">
-                 @*Theme switcher*@
-                 <SfDropDownList TItem="ThemeDetails" TValue="string" @bind-Value="themeName" DataSource="@Themes">
-                     <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
-                     <DropDownListEvents TItem="ThemeDetails" TValue="string" ValueChange="OnThemeChange"></DropDownListEvents>
-                 </SfDropDownList>
-             </div>
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+                @*Theme switcher*@
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <SfDropDownList TItem="ThemeDetails" TValue="string" @bind-Value="themeName" DataSource="@Themes">
+                    <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
+                    <DropDownListEvents TItem="ThemeDetails" TValue="string" ValueChange="OnThemeChange"></DropDownListEvents>
+                </SfDropDownList>
+            </div>
+            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
         </div>
 
-        <article class="content px-4">
+        <div class="content px-4">
             @Body
-        </article>
-    </main>
+        </div>
+    </div>
 </div>
 
- @code {
+@code {
     private string themeName;
 
     public class ThemeDetails
@@ -39,6 +35,7 @@
         public string Text { get; set; }
     }
 
+    @*Theme switcher datasource*@
     private List<ThemeDetails> Themes = new List<ThemeDetails>() {
         new ThemeDetails(){ ID = "material", Text = "Material" },
         new ThemeDetails(){ ID = "bootstrap", Text = "Bootstrap" },
@@ -52,12 +49,21 @@
         new ThemeDetails(){ ID = "highcontrast", Text = "High Contrast" }
     };
 
-
-    public void OnThemeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, ThemeDetails> args)
+    /// <summary>
+    /// The switcher OnChange event handler.
+    /// </summary>
+    public void OnThemeChange(ChangeEventArgs<string, ThemeDetails> args)
     {
-        JSRuntime.InvokeAsync<object>("setTheme", args.ItemData.ID);
+        var theme = GetThemeName();
+        if (theme != args.ItemData.ID)
+        {
+            UrlHelper.NavigateTo(GetUri(args.ItemData.ID), true);
+        }
     }
 
+    /// <summary>
+    /// Returns the theme name from Uri QueryString.
+    /// </summary>
     private string GetThemeName()
     {
         var uri = UrlHelper.ToAbsoluteUri(UrlHelper.Uri);
@@ -65,11 +71,18 @@
         return theme.Count > 0 ? theme.First() : "bootstrap4";
     }
 
+    /// <summary>
+    /// Returns the new Uri to navigate with theme changes.
+    /// </summary>
+    private string GetUri(string themeName)
+    {
+        var uri = UrlHelper.ToAbsoluteUri(UrlHelper.Uri);
+        return uri.AbsolutePath + "?theme=" + themeName;
+    }
+
     protected override void OnInitialized()
     {
         var theme = GetThemeName();
         themeName = theme.Contains("bootstrap4") ? "bootstrap4" : theme;
     }
-
 }
-
