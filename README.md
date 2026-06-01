@@ -12,7 +12,6 @@ The sample includes:
 - Sample pages (`Home`, `Counter`, and `Weather`)
 - Application styles and static assets under `wwwroot`
 - A root app component (`App.razor`) that initializes the Blazor Web App and coordinates routing and layout rendering
-- A complete .NET 10 Blazor Web App project structure
 
 ## Features
 
