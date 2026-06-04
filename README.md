@@ -1,27 +1,15 @@
 # Theme Switching in Blazor Web App
 
-This sample demonstrates theme switching in a .NET 10 Blazor Web App by using reusable components, layout files, and static assets.
-
-## Overview
-
-The sample includes:
-
-- A reusable theme switcher component (`ThemeSwitcher.razor`)
-- A main layout with theme support (`MainLayout.razor`)
-- A navigation menu (`NavMenu.razor`)
-- Sample pages such as Home, Counter, and Weather
-- Application styles and static assets under `wwwroot`
-- A root app component (`App.razor`) that handles routing and theme selection
-
-The selected theme is applied through the `theme` query string parameter.
+This repository contains a sample .NET 10 Blazor Web App demonstrating how to implement dynamic theme switching using reusable components, a shared layout, and static assets.
 
 ## Features
 
-- **Dynamic theme switching** without manual page edits
-- **Responsive layout** based on Bootstrap
-- **Reusable components** for maintainable UI composition
-- **Interactive sample pages** that demonstrate Blazor functionality
-- **Built-in error handling** and 404 support
+- **Dynamic Theme Switching**: Updates the active Blazor theme without reloading the app
+- **Reusable Theme Switcher Component**: Maintains a `ThemeSwitcher.razor` component for consistent UI composition across pages
+- **Shared Layout Experience**: Keeps the theme switcher available across all pages via `MainLayout.razor`
+- **Runtime Stylesheet Updates**: Swaps theme stylesheets on demand during runtime
+- **Interactive Sample Pages**: Includes Home, Counter, and Weather pages demonstrating Blazor functionality
+- **Query String Parameter Support**: Enables theme selection and persistence through URL parameters
 
 ## Prerequisites
 
@@ -57,5 +45,4 @@ The selected theme is applied through the `theme` query string parameter.
 ## References
 
 - [Apply Blazor Themes and Switch Dynamically](https://blazor.syncfusion.com/documentation/appearance/themes)
-- [Getting Started with Blazor Web App](https://blazor.syncfusion.com/documentation/getting-started/blazor-web-app)
-- [Getting Started with Blazor WebAssembly Standalone App](https://blazor.syncfusion.com/documentation/getting-started/blazor-webassembly-app)
+- [Theme Studio for Blazor components](https://blazor.syncfusion.com/documentation/appearance/theme-studio)
