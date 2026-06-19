@@ -1,0 +1,74 @@
+@rendermode InteractiveServer
+@using Syncfusion.Blazor.DropDowns
+@using Microsoft.AspNetCore.WebUtilities
+@inject NavigationManager Navigation
+
+<div class="theme-switcher-container">
+    <SfDropDownList TItem="ThemeOption"
+                    TValue="string"
+                    DataSource="@Themes"
+                    @bind-Value="CurrentTheme">
+        <DropDownListFieldSettings Text="Text" Value="Id" />
+        <DropDownListEvents TItem="ThemeOption"
+                            TValue="string"
+                            ValueChange="OnThemeChanged" />
+    </SfDropDownList>
+</div>
+
+@code {
+    private string CurrentTheme = "bootstrap5.3";
+
+    private static readonly HashSet<string> AllowedThemes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "bootstrap5.3", "bootstrap5.3-dark",
+        "fluent2", "fluent2-dark",
+        "material3", "material3-dark",
+        "tailwind3", "tailwind3-dark",
+        "highcontrast"
+    };
+
+    private static readonly List<ThemeOption> Themes =
+    [
+        new() { Id = "bootstrap5.3", Text = "Bootstrap 5.3" },
+        new() { Id = "bootstrap5.3-dark", Text = "Bootstrap 5.3 Dark" },
+        new() { Id = "fluent2", Text = "Fluent 2" },
+        new() { Id = "fluent2-dark", Text = "Fluent 2 Dark" },
+        new() { Id = "material3", Text = "Material 3" },
+        new() { Id = "material3-dark", Text = "Material 3 Dark" },
+        new() { Id = "tailwind3", Text = "Tailwind 3.4" },
+        new() { Id = "tailwind3-dark", Text = "Tailwind 3.4 Dark" },
+        new() { Id = "highcontrast", Text = "High Contrast" }
+    ];
+
+    protected override void OnInitialized()
+    {
+        var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
+        var query = QueryHelpers.ParseQuery(uri.Query);
+
+        if (query.TryGetValue("theme", out var theme) &&
+            AllowedThemes.Contains(theme.FirstOrDefault() ?? string.Empty))
+        {
+            CurrentTheme = theme.First()!;
+        }
+    }
+
+    private void OnThemeChanged(ChangeEventArgs<string, ThemeOption> args)
+    {
+        if (string.IsNullOrWhiteSpace(args?.Value) || !AllowedThemes.Contains(args.Value))
+        {
+            return;
+        }
+
+        CurrentTheme = args.Value;
+
+        Navigation.NavigateTo(
+            Navigation.GetUriWithQueryParameter("theme", CurrentTheme),
+            forceLoad: true);
+    }
+
+    private sealed class ThemeOption
+    {
+        public string Id { get; set; } = string.Empty;
+        public string Text { get; set; } = string.Empty;
+    }
+}
